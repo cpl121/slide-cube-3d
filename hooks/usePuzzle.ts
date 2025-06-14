@@ -1,9 +1,5 @@
 import { useState, useCallback } from 'react';
-import {
-  generateSolvedBoard,
-  shuffleBoard,
-  moveTile as moveTileOnBoard,
-} from '../lib/puzzle';
+import { generateSolvedBoard, shuffleBoard, moveTile as moveTileOnBoard } from '../lib/puzzle';
 
 export interface PuzzleHook {
   board: number[];
@@ -32,7 +28,7 @@ export function usePuzzle(size: number, seed?: number): PuzzleHook {
         return nextBoard;
       });
     },
-    [size]
+    [size],
   );
 
   const undo = useCallback(() => {

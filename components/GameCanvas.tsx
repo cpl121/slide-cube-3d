@@ -9,15 +9,17 @@ export interface GameCanvasProps {
   onTileClick: (index: number) => void;
 }
 
-const Tile: React.FC<{ index: number; value: number; size: number; onClick: (index: number) => void }> = ({ index, value, size, onClick }) => {
+const Tile: React.FC<{
+  index: number;
+  value: number;
+  size: number;
+  onClick: (index: number) => void;
+}> = ({ index, value, size, onClick }) => {
   if (value === 0) return null;
   const x = index % size;
   const y = Math.floor(index / size);
   return (
-    <mesh
-      position={[x - size / 2 + 0.5, 0, y - size / 2 + 0.5]}
-      onClick={() => onClick(index)}
-    >
+    <mesh position={[x - size / 2 + 0.5, 0, y - size / 2 + 0.5]} onClick={() => onClick(index)}>
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial color="orange" />
     </mesh>
@@ -32,10 +34,14 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
       cameraRef.current.lookAt(0, 0, 0);
     }
   });
-  
+
   return (
     <>
-      <PerspectiveCamera ref={cameraRef} makeDefault position={[size * 1.5, size * 1.5, size * 1.5]} />
+      <PerspectiveCamera
+        ref={cameraRef}
+        makeDefault
+        position={[size * 1.5, size * 1.5, size * 1.5]}
+      />
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 5, 2]} intensity={0.7} />
       <group>
@@ -45,8 +51,8 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
       </group>
       <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
     </>
-  )
-}
+  );
+};
 
 export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   return (
