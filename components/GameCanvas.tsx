@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import { Canvas, useFrame, PerspectiveCamera } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
 export interface GameCanvasProps {
@@ -24,7 +24,7 @@ const Tile: React.FC<{ index: number; value: number; size: number; onClick: (ind
   );
 };
 
-export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
+const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
 
   useFrame(() => {
@@ -32,9 +32,9 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick
       cameraRef.current.lookAt(0, 0, 0);
     }
   });
-
+  
   return (
-    <Canvas style={{ width: '100%', height: '100%' }}>
+    <>
       <PerspectiveCamera ref={cameraRef} makeDefault position={[size * 1.5, size * 1.5, size * 1.5]} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 5, 2]} intensity={0.7} />
@@ -44,6 +44,14 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick
         ))}
       </group>
       <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
+    </>
+  )
+}
+
+export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
+  return (
+    <Canvas style={{ width: '100%', height: '100%' }}>
+      <Scene board={board} size={size} onTileClick={onTileClick} />
     </Canvas>
   );
 };

@@ -1,15 +1,58 @@
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import type { NextPage } from 'next';
+const GameCanvas = dynamic(() => import('../components/GameCanvas'), { ssr: false });
+import UIControls from '../components/UIControls';
+import { usePuzzle } from '../hooks/usePuzzle';
+import { useTimer } from '../hooks/useTimer';
+import { isSolved } from '../lib/puzzle';
 
-const Canvas = dynamic(() => import('@react-three/fiber').then((mod) => mod.Canvas), { ssr: false });
+const PlayPage = () => {
+  const { query } = useRouter();
 
-export const PlayPage: NextPage = () => (
-  <div className="w-screen h-screen">
-    <Canvas className="w-full h-full">
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-    </Canvas>
-  </div>
-);
+  const size = parseInt(query.size as string) || 4;
+  const seed = query.seed ? parseInt(query.seed as string) : undefined;
+
+  const { board, moveCount, moveTile, undo, reset } = usePuzzle(size, seed);
+  const { timeElapsed, start, pause, reset: resetTimer } = useTimer();
+
+  useEffect(() => {
+    start();
+  }, [start]);
+
+  useEffect(() => {
+    if (isSolved(board)) {
+      pause();
+    }
+  }, [board, pause]);
+
+  return (
+    <div className="flex flex-col h-screen">
+      <UIControls
+        moveCount={moveCount}
+        timeElapsed={timeElapsed}
+        onShuffle={() => {
+          reset();
+          resetTimer();
+          start();
+        }}
+        onUndo={() => {
+          undo();
+          start();
+        }}
+      />
+      <div className="flex-1">
+        <GameCanvas
+          size={size}
+          board={board}
+          onTileClick={(index) => {
+            moveTile(index);
+            start();
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 
 export default PlayPage;
