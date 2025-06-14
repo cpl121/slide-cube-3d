@@ -1,23 +1,24 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 
-const Box = () => (
-  <mesh rotation={[0.4, 0.2, 0]}> 
-    <boxGeometry args={[1, 1, 1]} />
-    <meshStandardMaterial color="orange" />
-  </mesh>
-);
+const HomePage = () => {
+  const router = useRouter();
 
-const Home: NextPage = () => (
-  <div className="w-screen h-screen">
-    <Canvas camera={{ position: [2, 2, 2] }}>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Box />
-      <OrbitControls />
-    </Canvas>
-  </div>
-);
+  const startNewGame = () => {
+    const size = Math.floor(Math.random() * 4) + 3;
+    const seed = Math.floor(Math.random() * 100000);
+    router.push(`/play?size=${size}&seed=${seed}`);
+  };
 
-export default Home;
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <button
+        onClick={startNewGame}
+        className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+      >
+        Start New Game
+      </button>
+    </div>
+  );
+};
+
+export default HomePage;
