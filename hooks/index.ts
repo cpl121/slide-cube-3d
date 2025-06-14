@@ -1,2 +1,2 @@
-export * from './usePuzzle'
-export * from './useTimer'
+export * from './usePuzzle';
+export * from './useTimer';
