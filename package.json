@@ -9,12 +9,14 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "three": "latest",
     "@react-three/fiber": "latest",
-    "@react-three/drei": "latest"
+    "@react-three/drei": "latest",
+    "@swc/helpers": "^0.5.1",
+    "caniuse-lite": "^1.0.30001723"
   },
   "devDependencies": {
     "typescript": "latest",

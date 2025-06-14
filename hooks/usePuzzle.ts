@@ -11,8 +11,8 @@ export interface PuzzleHook {
 
 export function usePuzzle(size: number, seed?: number): PuzzleHook {
   const createBoard = useCallback(() => {
-    return shuffleBoard(generateSolvedBoard(size), seed);
-  }, [size, seed]);
+    return shuffleBoard(generateSolvedBoard(size));
+  }, [size]);
 
   const [board, setBoard] = useState<number[]>(createBoard);
   const [history, setHistory] = useState<number[][]>([]);

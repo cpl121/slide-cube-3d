@@ -2,9 +2,8 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 const GameCanvas = dynamic(() => import('../components/GameCanvas'), { ssr: false });
-import UIControls from '../components/UIControls';
-import { usePuzzle } from '../hooks/usePuzzle';
-import { useTimer } from '../hooks/useTimer';
+import { UIControls } from '../components';
+import { usePuzzle, useTimer } from '../hooks';
 import { isSolved } from '../lib/puzzle';
 
 const PlayPage = () => {
