@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import GameCanvas from '../components/GameCanvas';
+import dynamic from 'next/dynamic';
+const GameCanvas = dynamic(() => import('../components/GameCanvas'), { ssr: false });
 import UIControls from '../components/UIControls';
 import { usePuzzle } from '../hooks/usePuzzle';
 import { useTimer } from '../hooks/useTimer';
