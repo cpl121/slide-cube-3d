@@ -44,7 +44,6 @@ const Tile: React.FC<TileProps> = ({ index, value, size, cubeSize, onClick }) =>
   );
 };
 
-
 const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
   const cubeSize = 1; // Use a fixed cube size so tiles fill the grid consistently
