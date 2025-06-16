@@ -1,6 +1,12 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera, Text } from '@react-three/drei';
+import {
+  OrbitControls,
+  PerspectiveCamera,
+  Text,
+  Sky,
+  Environment,
+} from '@react-three/drei';
 import * as THREE from 'three';
 
 export interface GameCanvasProps {
@@ -80,6 +86,10 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
           />
         ))}
       </group>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -cubeSize / 2 - 0.01, 0]}>
+        <planeGeometry args={[10, 10]} />
+        <meshStandardMaterial color="#cccccc" />
+      </mesh>
       <OrbitControls dampingFactor={0.05} enablePan={false} />
     </>
   );
@@ -87,7 +97,10 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
 
 export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   return (
-    <Canvas style={{ width: '100%', height: '100%' }}>
+    <Canvas style={{ width: '100%', height: '100%' }} gl={{ preserveDrawingBuffer: true }}>
+      <color attach="background" args={["#e0f7fa"]} />
+      <Sky distance={450000} sunPosition={[1, 2, 3]} inclination={0.6} azimuth={0.25} />
+      <Environment preset="sunset" />
       <Scene board={board} size={size} onTileClick={onTileClick} />
     </Canvas>
   );
