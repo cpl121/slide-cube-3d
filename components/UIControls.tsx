@@ -1,6 +1,7 @@
 import { formatTime } from '@/lib/puzzle';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 
 export interface UIControlsProps {
   moveCount: number;
@@ -20,29 +21,29 @@ const UIControls: React.FC<UIControlsProps> = ({
   const router = useRouter();
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-gray-800 text-white flex items-center gap-4 p-4 z-10">
+    <div className="fixed top-0 left-0 w-full text-white flex items-center gap-4 p-6 z-10">
       <button
-        className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"
         onClick={() => router.push('/')}
       >
-        Go Home
+        <Image className='rounded-lg' src={'/assets/slide-cube.png'} alt='slide cube' width={40} height={40} />
       </button>
+      <div className="h-8 w-px bg-gray-500" />
       <button
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded"
+        className="bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-1 px-3 rounded"
         onClick={onShuffle}
       >
-        Shuffle
+        Shuffle 🔁
       </button>
       <button
-        className="bg-blue-500 enabled:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-cyan-600 enabled:hover:bg-cyan-500 text-white font-semibold py-1 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={onUndo}
         disabled={shouldUndo}
       >
-        Undo
+        Undo ◀️
       </button>
       <div className="ml-auto flex gap-4">
-        <span>Moves: {moveCount / 2}</span>
-        <span>Time: {formatTime(timeElapsed)}</span>
+        <span className='md:text-lg'>Moves: {moveCount / 2}</span>
+        <span className='md:text-lg'>Time: {formatTime(timeElapsed)}</span>
       </div>
     </div>
   );

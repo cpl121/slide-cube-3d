@@ -10,10 +10,11 @@ export default function HomePage() {
 
   const sizeOptions = [
     { value: 'random', label: 'Random' },
-    { value: '3', label: '3×3' },
-    { value: '4', label: '4×4' },
-    { value: '5', label: '5×5' },
-    { value: '6', label: '6×6' },
+    { value: '2', label: '2x2' },
+    { value: '3', label: '3x3' },
+    { value: '4', label: '4x4' },
+    { value: '5', label: '5x5' },
+    { value: '6', label: '6x6' },
   ];
 
   const startNewGame = () => {
