@@ -32,29 +32,27 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center p-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center p-2">
       <div className="max-w-4xl mx-auto text-center">
         {/* Hero Title */}
-        <div className="mb-8">
-          <h1 className="text-7xl md:text-8xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+        <div className="mb-4">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
             SlideCube 3D
           </h1>
           <div className="w-32 h-1 bg-gradient-to-r from-cyan-400 to-purple-600 mx-auto rounded-full"></div>
         </div>
 
         {/* Description */}
-        <div className="mb-4">
-          <p className="text-xl md:text-2xl text-gray-200 mb-6 leading-relaxed">
-            Experience the ultimate 3D sliding-tile puzzle challenge
-          </p>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Every playthrough generates a brand new random board. Slide, rotate, and solve your way
-            through infinite puzzles in stunning 3D.
+        <div className="mb-4 flex flex-col space-y-4">
+          <p className="text-xl md:text-2xl text-gray-200 leading-relaxed">Slide. Solve. Repeat.</p>
+          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
+            Discover a new 3D sliding-tile puzzle every time you play. Navigate shifting cubes,
+            sharpen your skills, and challenge friends to beat your time and move count.
           </p>
         </div>
 
         {/* Feature Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid md:grid-cols-3 gap-5">
           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-2 border border-white/20">
             <div className="text-4xl mb-3">🎲</div>
             <h3 className="text-xl font-semibold text-white mb-2">Infinite Puzzles</h3>
@@ -70,11 +68,27 @@ export default function HomePage() {
             <h3 className="text-xl font-semibold text-white mb-2">Instant Play</h3>
             <p className="text-gray-300">No downloads required - play directly in your browser</p>
           </div>
-        </div>
-
-        {/* Game Configuration */}
-        <div className="mb-12">
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 max-w-md mx-auto">
+          {/* Game Configuration */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 md:col-span-2">
+            <h3 className="text-2xl font-semibold text-white">How to Play</h3>
+            <p className="text-gray-300 my-4 text-sm">
+              Watch this quick tutorial to learn the basics of 3D puzzle solving
+            </p>
+            <div className="relative">
+              <video
+                className="w-full max-h-96 rounded-lg shadow-2xl"
+                autoPlay
+                loop
+                muted
+                poster="/assets/slide_cube.mp4"
+              >
+                <source src="/assets/slide_cube.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg pointer-events-none"></div>
+            </div>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 max-w-md mx-auto w-full flex flex-col justify-around">
             <h3 className="text-2xl font-semibold text-white mb-6">Choose Your Challenge</h3>
 
             {/* Board Size Dropdown */}
@@ -100,7 +114,7 @@ export default function HomePage() {
               </select>
               <p className="text-xs text-gray-400 mt-2">
                 {selectedSize === 'random'
-                  ? 'A random board size will be selected for you'
+                  ? 'A random board size will be selected'
                   : `Play on a ${selectedSize}×${selectedSize} grid`}
               </p>
             </div>
@@ -109,7 +123,7 @@ export default function HomePage() {
             <button
               onClick={startNewGame}
               disabled={isLoading}
-              className="group relative w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-xl font-bold rounded-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="group relative w-full p-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-xl font-bold rounded-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               <span className="relative z-10">
                 {isLoading ? 'Generating Puzzle...' : 'Start New Game'}

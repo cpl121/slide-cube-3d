@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
 import {
   OrbitControls,
@@ -7,6 +7,8 @@ import {
   Environment,
   Stars,
   GradientTexture,
+  Loader,
+  Html,
 } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -104,12 +106,23 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
 
 export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   return (
-    <Canvas style={{ width: '100%', height: '100%' }} gl={{ preserveDrawingBuffer: true }}>
-      <color attach="background" args={['#000']} />
-      <Stars radius={100} depth={50} count={10000} factor={4} saturation={0} fade speed={2} />
-      <Environment preset="night" />
-      <Scene board={board} size={size} onTileClick={onTileClick} />
-    </Canvas>
+    <>
+      <Canvas style={{ width: '100%', height: '100%' }} gl={{ preserveDrawingBuffer: true }}>
+        <color attach="background" args={['#000']} />
+        <Stars radius={100} depth={50} count={10000} factor={4} saturation={0} fade speed={2} />
+        <Suspense
+          fallback={
+            <Html center>
+              <div className="text-white text-lg">Loading...</div>
+            </Html>
+          }
+        >
+          <Environment preset="night" />
+          <Scene board={board} size={size} onTileClick={onTileClick} />
+        </Suspense>
+      </Canvas>
+      <Loader containerStyles={{ background: 'transparent' }} innerStyles={{ color: 'white' }} />
+    </>
   );
 };
 
