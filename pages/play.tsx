@@ -1,4 +1,5 @@
 'use client';
+
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -9,7 +10,8 @@ import { usePuzzle, useTimer } from '../hooks';
 import { isSolved } from '../lib/puzzle';
 
 const PlayPage: NextPage = () => {
-  const { query } = useRouter();
+  const router = useRouter();
+  const { query } = router;
 
   const size = parseInt(query.size as string) || 4;
   const seed = query.seed ? parseInt(query.seed as string) : '0';
@@ -32,6 +34,14 @@ const PlayPage: NextPage = () => {
 
   return (
     <div className="flex flex-col h-screen">
+      <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
+        <button
+          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"
+          onClick={() => router.push('/')}
+        >
+          Home
+        </button>
+      </header>
       <UIControls
         moveCount={moveCount}
         timeElapsed={timeElapsed}
