@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import seedrandom from 'seedrandom';
 import { generateSolvedBoard, shuffleBoard, moveTile as moveTileOnBoard } from '../lib/puzzle';
 
 export interface PuzzleHook {
@@ -10,9 +11,11 @@ export interface PuzzleHook {
 }
 
 export function usePuzzle(size: number, seed?: number): PuzzleHook {
+  const prng = seed !== undefined ? seedrandom(seed.toString()) : Math.random;
+
   const createBoard = useCallback(() => {
-    return shuffleBoard(generateSolvedBoard(size));
-  }, [size]);
+    return shuffleBoard(generateSolvedBoard(size), prng);
+  }, [size, prng]);
 
   const [board, setBoard] = useState<number[]>(createBoard);
   const [history, setHistory] = useState<number[][]>([]);
