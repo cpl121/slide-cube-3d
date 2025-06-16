@@ -18,12 +18,13 @@ export function useTimer() {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
-      runningRef.current = false;
+      runningRef.current = true;
     }
   };
 
   const reset = () => {
     pause();
+    runningRef.current = false;
     setTimeElapsed(0);
   };
 

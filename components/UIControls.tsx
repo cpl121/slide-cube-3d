@@ -19,7 +19,7 @@ const formatTime = (seconds: number): string => {
 
 const UIControls: React.FC<UIControlsProps> = ({ moveCount, timeElapsed, onShuffle, onUndo }) => {
   return (
-    <div className="fixed top-0 left-0 w-full bg-gray-800 text-white flex items-center gap-4 p-4">
+    <div className="fixed top-0 left-0 w-full bg-gray-800 text-white flex items-center gap-4 p-4 z-10">
       <button
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded"
         onClick={onShuffle}
