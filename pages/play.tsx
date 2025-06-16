@@ -33,15 +33,15 @@ const PlayPage: NextPage = () => {
   }, [board]);
 
   const fullReset = () => {
-    reset()
-    resetTimer()
-    setShouldUndo(true)
-  }
+    reset();
+    resetTimer();
+    setShouldUndo(true);
+  };
 
   const closeModal = () => {
-    setShowModal(false)
-    fullReset()
-  }
+    setShowModal(false);
+    fullReset();
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -49,7 +49,7 @@ const PlayPage: NextPage = () => {
         moveCount={moveCount}
         timeElapsed={timeElapsed}
         onShuffle={() => {
-          fullReset()
+          fullReset();
           start();
         }}
         onUndo={() => {
