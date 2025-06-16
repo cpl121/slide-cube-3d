@@ -22,10 +22,14 @@ const UIControls: React.FC<UIControlsProps> = ({
 
   return (
     <div className="fixed top-0 left-0 w-full text-white flex items-center gap-4 p-6 z-10">
-      <button
-        onClick={() => router.push('/')}
-      >
-        <Image className='rounded-lg' src={'/assets/slide-cube.png'} alt='slide cube' width={40} height={40} />
+      <button onClick={() => router.push('/')}>
+        <Image
+          className="rounded-lg"
+          src={'/assets/slide-cube.png'}
+          alt="slide cube"
+          width={40}
+          height={40}
+        />
       </button>
       <div className="h-8 w-px bg-gray-500" />
       <button
@@ -42,8 +46,8 @@ const UIControls: React.FC<UIControlsProps> = ({
         Undo ◀️
       </button>
       <div className="ml-auto flex gap-4">
-        <span className='md:text-lg'>Moves: {moveCount / 2}</span>
-        <span className='md:text-lg'>Time: {formatTime(timeElapsed)}</span>
+        <span className="md:text-lg">Moves: {moveCount / 2}</span>
+        <span className="md:text-lg">Time: {formatTime(timeElapsed)}</span>
       </div>
     </div>
   );
