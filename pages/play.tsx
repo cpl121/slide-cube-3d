@@ -1,10 +1,10 @@
 'use client';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 const GameCanvas = dynamic(() => import('../components/GameCanvas'), { ssr: false });
-import { UIControls } from '../components';
+import { UIControls, VictoryPopup } from '../components';
 import { usePuzzle, useTimer } from '../hooks';
 import { isSolved } from '../lib/puzzle';
 
@@ -16,6 +16,7 @@ const PlayPage: NextPage = () => {
 
   const { board, moveCount, moveTile, undo, reset } = usePuzzle(size, seed);
   const { timeElapsed, start, pause, reset: resetTimer } = useTimer();
+  const [showVictory, setShowVictory] = useState(false);
 
   useEffect(() => {
     start();
@@ -24,13 +25,7 @@ const PlayPage: NextPage = () => {
   useEffect(() => {
     if (isSolved(board)) {
       pause();
-      alert(
-        'Congratulations! You solved the puzzle in ' +
-          timeElapsed +
-          ' seconds and ' +
-          moveCount +
-          ' moves.'
-      );
+      setShowVictory(true);
     }
   }, [board]);
 
@@ -59,6 +54,13 @@ const PlayPage: NextPage = () => {
           }}
         />
       </div>
+      {showVictory && (
+        <VictoryPopup
+          moveCount={moveCount}
+          timeElapsed={timeElapsed}
+          onClose={() => setShowVictory(false)}
+        />
+      )}
     </div>
   );
 };
