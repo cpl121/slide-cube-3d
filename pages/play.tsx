@@ -1,10 +1,14 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
-const GameCanvas = dynamic(() => import('../components/GameCanvas'), { ssr: false });
+
 import { UIControls } from '../components';
 import { usePuzzle, useTimer } from '../hooks';
 import { isSolved } from '../lib/puzzle';
+
+const GameCanvas = dynamic(() => import('../components/GameCanvas'), {
+  ssr: false,
+});
 
 const PlayPage = () => {
   const { query } = useRouter();
@@ -12,7 +16,10 @@ const PlayPage = () => {
   const size = parseInt(query.size as string) || 4;
   const seed = query.seed ? parseInt(query.seed as string) : undefined;
 
-  const { board, moveCount, moveTile, undo, reset } = usePuzzle(size, seed);
+  const { board, moveCount, moveTile, undo, reset: shuffle } = usePuzzle(
+    size,
+    seed,
+  );
   const { timeElapsed, start, pause, reset: resetTimer } = useTimer();
 
   useEffect(() => {
@@ -25,20 +32,23 @@ const PlayPage = () => {
     }
   }, [board, pause]);
 
+  const onShuffle = () => {
+    shuffle();
+    resetTimer();
+    start();
+  };
+
+  const onUndo = () => {
+    undo();
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <UIControls
+        onShuffle={onShuffle}
+        onUndo={onUndo}
         moveCount={moveCount}
         timeElapsed={timeElapsed}
-        onShuffle={() => {
-          reset();
-          resetTimer();
-          start();
-        }}
-        onUndo={() => {
-          undo();
-          start();
-        }}
       />
       <div className="flex-1">
         <GameCanvas
