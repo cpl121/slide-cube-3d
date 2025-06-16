@@ -106,13 +106,10 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
         enablePan={false}
         dampingFactor={0.05}
         enableDamping={true}
-
         minPolarAngle={-Math.PI}
         maxPolarAngle={Math.PI / 2.5}
-
         minAzimuthAngle={-Math.PI / 6}
         maxAzimuthAngle={Math.PI / 6}
-
         // Zoom
         enableZoom={true}
         minDistance={7}
