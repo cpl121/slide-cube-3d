@@ -14,11 +14,10 @@ const PlayPage: NextPage = () => {
   const size = parseInt(query.size as string) || 4;
   const seed = query.seed ? parseInt(query.seed as string) : '0';
 
-  const [shouldUndo, setShouldUndo] = useState(true)
+  const [shouldUndo, setShouldUndo] = useState(true);
   const { board, moveCount, moveTile, undo, reset } = usePuzzle(size, Number(seed), setShouldUndo);
   const { timeElapsed, start, pause, reset: resetTimer } = useTimer();
   const [showVictory, setShowVictory] = useState(false);
-
 
   useEffect(() => {
     start();

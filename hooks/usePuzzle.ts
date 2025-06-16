@@ -14,7 +14,11 @@ export interface PuzzleHook {
  * Hook managing the sliding puzzle state.
  * It reinitializes whenever `size` or `seed` changes.
  */
-export function usePuzzle(size: number, seed: number, setShouldUndo: Dispatch<SetStateAction<boolean>>): PuzzleHook {
+export function usePuzzle(
+  size: number,
+  seed: number,
+  setShouldUndo: Dispatch<SetStateAction<boolean>>,
+): PuzzleHook {
   const [board, setBoard] = useState<number[]>([]);
   const [_, setHistory] = useState<number[][]>([]);
   const [moveCount, setMoveCount] = useState(0);
@@ -34,7 +38,7 @@ export function usePuzzle(size: number, seed: number, setShouldUndo: Dispatch<Se
 
   const moveTile = useCallback(
     (index: number) => {
-      setShouldUndo(false)
+      setShouldUndo(false);
       setBoard((prevBoard) => {
         const nextBoard = moveTileOnBoard(prevBoard, index, size);
         if (nextBoard === prevBoard) return prevBoard;
@@ -55,7 +59,7 @@ export function usePuzzle(size: number, seed: number, setShouldUndo: Dispatch<Se
       setMoveCount((c) => Math.max(0, c - 1));
       return newHistory;
     });
-    setShouldUndo(true)
+    setShouldUndo(true);
   }, []);
 
   const reset = useCallback(() => {
