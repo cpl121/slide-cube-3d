@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 const GameCanvas = dynamic(() => import('../components/GameCanvas'), { ssr: false });
-import { UIControls, VictoryPopup } from '../components';
+import { UIControls } from '../components';
 import { usePuzzle, useTimer } from '../hooks';
 import { isSolved } from '../lib/puzzle';
 
@@ -17,7 +17,7 @@ const PlayPage: NextPage = () => {
   const [shouldUndo, setShouldUndo] = useState(true);
   const { board, moveCount, moveTile, undo, reset } = usePuzzle(size, Number(seed), setShouldUndo);
   const { timeElapsed, start, pause, reset: resetTimer } = useTimer();
-  const [showVictory, setShowVictory] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     start();
@@ -26,7 +26,7 @@ const PlayPage: NextPage = () => {
   useEffect(() => {
     if (isSolved(board)) {
       pause();
-      setShowVictory(true);
+      setShowModal(true);
     }
   }, [board]);
 
@@ -56,12 +56,49 @@ const PlayPage: NextPage = () => {
           }}
         />
       </div>
-      {showVictory && (
-        <VictoryPopup
-          moveCount={moveCount}
-          timeElapsed={timeElapsed}
-          onClose={() => setShowVictory(false)}
-        />
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowModal(false)}
+            >
+              X
+            </button>
+            <h2 className="text-2xl font-bold mb-4">Congratulations!</h2>
+            <p className="mb-6">
+              You solved it in {timeElapsed} seconds and {moveCount} moves.
+            </p>
+            <div className="flex justify-center">
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-2"
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'SlideCube 3D Result',
+                      text: `I solved SlideCube 3D in ${timeElapsed}s and ${moveCount} moves!`,
+                      url: window.location.href,
+                    });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Link copied to clipboard!');
+                  }
+                }}
+              >
+                Share Result
+              </button>
+              <button
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                onClick={() => {
+                  navigator.clipboard.writeText(`/play?size=${size}&seed=${seed}`);
+                  alert('Challenge link copied!');
+                }}
+              >
+                Challenge Friend
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
