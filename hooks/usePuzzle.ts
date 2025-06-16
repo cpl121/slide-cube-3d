@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import seedrandom from 'seedrandom';
 import { generateSolvedBoard, shuffleBoard, moveTile as moveTileOnBoard } from '../lib/puzzle';
 
@@ -10,16 +10,27 @@ export interface PuzzleHook {
   reset: () => void;
 }
 
+/**
+ * Hook managing the sliding puzzle state.
+ * It reinitializes whenever `size` or `seed` changes.
+ */
 export function usePuzzle(size: number, seed?: number): PuzzleHook {
-  const prng = seed !== undefined ? seedrandom(seed.toString()) : Math.random;
-
-  const createBoard = useCallback(() => {
-    return shuffleBoard(generateSolvedBoard(size), prng);
-  }, [size, prng]);
-
-  const [board, setBoard] = useState<number[]>(createBoard);
+  const [board, setBoard] = useState<number[]>([]);
   const [history, setHistory] = useState<number[][]>([]);
   const [moveCount, setMoveCount] = useState(0);
+
+  const initialize = useCallback(() => {
+    const prng = seed !== undefined ? seedrandom(seed.toString()) : Math.random;
+    const initialBoard = shuffleBoard(generateSolvedBoard(size), prng);
+    setBoard(initialBoard);
+    setHistory([]);
+    setMoveCount(0);
+  }, [size, seed]);
+
+  // Generate a fresh puzzle when the hook mounts or when size/seed change.
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   const moveTile = useCallback(
     (index: number) => {
@@ -46,11 +57,8 @@ export function usePuzzle(size: number, seed?: number): PuzzleHook {
   }, []);
 
   const reset = useCallback(() => {
-    const newBoard = createBoard();
-    setBoard(newBoard);
-    setHistory([]);
-    setMoveCount(0);
-  }, [createBoard]);
+    initialize();
+  }, [initialize]);
 
   return {
     board,
