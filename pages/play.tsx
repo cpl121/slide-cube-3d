@@ -85,17 +85,17 @@ const PlayPage: NextPage = () => {
             >
               X
             </button>
-            <h2 className="text-2xl font-bold mb-4 text-center">🎉 Congratulations! 🥳</h2>
-            <div className="mb-6 text-center flex flex-col space-y-2">
+            <h2 className="text-2xl font-bold mb-8 text-center">🎉 Congratulations! 🥳</h2>
+            <div className="text-center flex flex-col space-y-2">
               <p className="text-2xl font-semibold">
                 You solved this puzzle in <span className="text-blue-600">{timeElapsed}s</span> and{' '}
-                <span className="text-blue-600">{moveCount / 2}</span> moves!
+                <span className="text-blue-600">{moveCount}</span> moves!
               </p>
               <span className="font-semibold">
                 Share your victory and challenge friends to beat your score! 🚀
               </span>
             </div>
-            <div className="flex justify-center w-full space-x-2">
+            <div className="flex justify-center w-full space-x-2 mt-8">
               <button
                 className="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-300 w-full"
                 onClick={closeModal}
@@ -108,7 +108,7 @@ const PlayPage: NextPage = () => {
                   if (navigator.share) {
                     navigator.share({
                       title: 'SlideCube 3D Result',
-                      text: `I solved SlideCube 3D in ${timeElapsed}s and ${moveCount / 2} moves!`,
+                      text: `I solved SlideCube 3D in ${timeElapsed}s and ${moveCount} moves!`,
                       url: window.location.href,
                     });
                   } else {
