@@ -28,15 +28,15 @@ const Tile: React.FC<TileProps> = ({ index, value, size, cubeSize, onClick }) =>
   ];
   return (
     <mesh position={position} onPointerDown={() => onClick(index)}>
-      <boxGeometry args={[cubeSize, cubeSize, cubeSize]} />
+      <boxGeometry args={[cubeSize - 0.05, cubeSize - 0.05, cubeSize - 0.05]} />
       <meshStandardMaterial color="orange" />
       <Text
-        position={[0, 0, cubeSize / 2 + 0.01]}
+        position={[0, cubeSize / 2 + 0.01, 0]}
+        rotation={[Math.PI / 2, Math.PI, 0]}
         fontSize={cubeSize * 0.4}
         color="white"
         anchorX="center"
         anchorY="middle"
-        billboard
       >
         {value.toString()}
       </Text>
@@ -77,7 +77,7 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
           />
         ))}
       </group>
-      <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
+      <OrbitControls dampingFactor={0.05} enablePan={false} />
     </>
   );
 };
