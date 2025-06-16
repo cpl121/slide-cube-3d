@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -26,8 +26,12 @@ const Tile: React.FC<TileProps> = ({ index, value, size, cubeSize, onClick }) =>
     0,
     (y - size / 2 + 0.5) * cubeSize,
   ];
+  const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
+    event.stopPropagation();
+    onClick(index);
+  };
   return (
-    <mesh position={position} onPointerDown={() => onClick(index)}>
+    <mesh position={position} onPointerDown={handlePointerDown}>
       <boxGeometry args={[cubeSize - 0.05, cubeSize - 0.05, cubeSize - 0.05]} />
       <meshStandardMaterial color="orange" />
       <Text
