@@ -18,8 +18,8 @@ export function useTimer() {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
-      runningRef.current = true;
     }
+    runningRef.current = false;
   };
 
   const reset = () => {

@@ -46,6 +46,7 @@ const PlayPage: NextPage = () => {
   const closeModal = () => {
     setShowModal(false);
     fullReset();
+    start();
   };
 
   return (
