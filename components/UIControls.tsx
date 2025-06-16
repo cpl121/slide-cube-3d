@@ -1,4 +1,5 @@
 import { formatTime } from '@/lib/puzzle';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 export interface UIControlsProps {
@@ -16,8 +17,16 @@ const UIControls: React.FC<UIControlsProps> = ({
   onUndo,
   shouldUndo,
 }) => {
+  const router = useRouter();
+
   return (
     <div className="fixed top-0 left-0 w-full bg-gray-800 text-white flex items-center gap-4 p-4 z-10">
+      <button
+        className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"
+        onClick={() => router.push('/')}
+      >
+        Go Home
+      </button>
       <button
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded"
         onClick={onShuffle}
@@ -25,7 +34,7 @@ const UIControls: React.FC<UIControlsProps> = ({
         Shuffle
       </button>
       <button
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded disabled:opacity-50"
+        className="bg-blue-500 enabled:hover:bg-blue-600 text-white font-semibold py-1 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={onUndo}
         disabled={shouldUndo}
       >

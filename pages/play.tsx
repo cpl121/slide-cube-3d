@@ -1,4 +1,5 @@
 'use client';
+
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -9,7 +10,8 @@ import { usePuzzle, useTimer } from '../hooks';
 import { isSolved } from '../lib/puzzle';
 
 const PlayPage: NextPage = () => {
-  const { query } = useRouter();
+  const router = useRouter();
+  const { query } = router;
 
   const size = parseInt(query.size as string) || 4;
   const seed = query.seed ? parseInt(query.seed as string) : '0';
