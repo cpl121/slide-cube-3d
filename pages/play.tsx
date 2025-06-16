@@ -17,13 +17,18 @@ const PlayPage: NextPage = () => {
   const seed = query.seed ? parseInt(query.seed as string) : '0';
 
   const [shouldUndo, setShouldUndo] = useState(true);
-  const { board, moveCount, moveTile, undo, reset } = usePuzzle(size, Number(seed), setShouldUndo);
-  const { timeElapsed, start, pause, reset: resetTimer } = useTimer();
+  const { board, moveCount, moveTile, undo, reset: resetPuzzle } = usePuzzle(
+    size,
+    Number(seed),
+    setShouldUndo,
+  );
+  const { start, pause, reset, timeElapsed } = useTimer();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    reset();
     start();
-  }, [start]);
+  }, [size, seed]);
 
   useEffect(() => {
     if (isSolved(board)) {
@@ -33,14 +38,15 @@ const PlayPage: NextPage = () => {
   }, [board]);
 
   const fullReset = () => {
+    resetPuzzle();
     reset();
-    resetTimer();
     setShouldUndo(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
     fullReset();
+    start();
   };
 
   return (
