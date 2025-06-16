@@ -1,16 +1,17 @@
+import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import dynamic from 'next/dynamic';
-const GameCanvas = dynamic(() => import('../components/GameCanvas'), { ssr: false });
-import { UIControls } from '../components';
-import { usePuzzle, useTimer } from '../hooks';
-import { isSolved } from '../lib/puzzle';
+import GameCanvas from '@/components/GameCanvas';
+import UIControls from '@/components/UIControls';
+import usePuzzle from '@/hooks/usePuzzle';
+import useTimer from '@/hooks/useTimer';
+import { isSolved } from '@/lib/puzzle';
 
-const PlayPage = () => {
-  const { query } = useRouter();
-
-  const size = parseInt(query.size as string) || 4;
-  const seed = query.seed ? parseInt(query.seed as string) : undefined;
+const PlayPage: NextPage = () => {
+  const router = useRouter();
+  const { size: qSize, seed: qSeed } = router.query as { size?: string; seed?: string };
+  const size = qSize ? parseInt(qSize, 10) : 4;
+  const seed = qSeed ? parseInt(qSeed, 10) : undefined;
 
   const { board, moveCount, moveTile, undo, reset } = usePuzzle(size, seed);
   const { timeElapsed, start, pause, reset: resetTimer } = useTimer();
