@@ -93,14 +93,14 @@ export default function HomePage() {
 
             {/* Board Size Dropdown */}
             <div className="mb-6">
-              <label htmlFor="board-size" className="block text-sm font-medium text-gray-300 mb-3">
+              <label htmlFor="board-size" className="text-sm font-medium text-gray-300">
                 Board Size
               </label>
               <select
                 id="board-size"
                 value={selectedSize}
                 onChange={(e) => setSelectedSize(e.target.value)}
-                className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm"
+                className="w-full px-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white text-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent backdrop-blur-sm"
               >
                 {sizeOptions.map((option) => (
                   <option

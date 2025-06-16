@@ -46,7 +46,7 @@ const UIControls: React.FC<UIControlsProps> = ({
         Undo ↩️
       </button>
       <div className="ml-auto flex gap-4">
-        <span className="md:text-lg">Moves: {moveCount / 2}</span>
+        <span className="md:text-lg">Moves: {moveCount}</span>
         <span className="md:text-lg">Time: {formatTime(timeElapsed)}</span>
       </div>
     </div>
