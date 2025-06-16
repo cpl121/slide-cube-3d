@@ -34,14 +34,6 @@ const PlayPage: NextPage = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
-        <button
-          className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"
-          onClick={() => router.push('/')}
-        >
-          Home
-        </button>
-      </header>
       <UIControls
         moveCount={moveCount}
         timeElapsed={timeElapsed}
