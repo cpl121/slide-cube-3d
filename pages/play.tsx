@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import GameCanvas from '@/components/GameCanvas';
 import UIControls from '@/components/UIControls';
-import usePuzzle from '@/hooks/usePuzzle';
-import useTimer from '@/hooks/useTimer';
+import { usePuzzle } from '@/hooks/usePuzzle';
 import { isSolved } from '@/lib/puzzle';
+import { useTimer } from '@/hooks';
 
 const PlayPage: NextPage = () => {
   const router = useRouter();
