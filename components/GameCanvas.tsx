@@ -1,12 +1,6 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
-import {
-  OrbitControls,
-  PerspectiveCamera,
-  Text,
-  Sky,
-  Environment,
-} from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Text, Sky, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
 export interface GameCanvasProps {
@@ -98,7 +92,7 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
 export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   return (
     <Canvas style={{ width: '100%', height: '100%' }} gl={{ preserveDrawingBuffer: true }}>
-      <color attach="background" args={["#e0f7fa"]} />
+      <color attach="background" args={['#e0f7fa']} />
       <Sky distance={450000} sunPosition={[1, 2, 3]} inclination={0.6} azimuth={0.25} />
       <Environment preset="sunset" />
       <Scene board={board} size={size} onTileClick={onTileClick} />
