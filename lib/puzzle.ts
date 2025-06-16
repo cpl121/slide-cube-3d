@@ -1,5 +1,6 @@
 // Utility functions and puzzle logic for the sliding puzzle
 // Each board is represented as a flat array of numbers where 0 is the empty tile.
+import seedrandom from 'seedrandom';
 
 /**
  * Generate a solved puzzle board for a square grid of the given size.
@@ -45,7 +46,7 @@ function isSolvable(board: number[], size: number): boolean {
  * Shuffle the board with a random permutation that is guaranteed to be solvable.
  * The returned array is a new instance.
  */
-export function shuffleBoard(board: number[]): number[] {
+export function shuffleBoard(board: number[], prng: () => number): number[] {
   const size = Math.sqrt(board.length);
   if (!Number.isInteger(size)) {
     throw new Error('Board length must be a perfect square');
@@ -55,7 +56,7 @@ export function shuffleBoard(board: number[]): number[] {
     result = [...board];
     // Fisher–Yates shuffle
     for (let i = result.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(prng() * (i + 1));
       [result[i], result[j]] = [result[j], result[i]];
     }
   } while (!isSolvable(result, size) || isSolved(result));
