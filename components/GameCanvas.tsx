@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
 import {
   OrbitControls,
@@ -7,6 +7,9 @@ import {
   Environment,
   Stars,
   GradientTexture,
+  Loader,
+  Html,
+  useTexture,
 } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -60,6 +63,8 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   const cubeSize = 1; // Use a fixed cube size so tiles fill the grid consistently
   const boardSize = cubeSize * size;
 
+  const alphaMap = useTexture('/assets/alpha.jpg');
+
   useFrame(() => {
     if (cameraRef.current) {
       cameraRef.current.lookAt(0, 0, 0);
@@ -88,8 +93,8 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
         ))}
       </group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -cubeSize / 2 - 0.01, 0]}>
-        <planeGeometry args={[size * 1.5, size * 1.5]} />
-        <meshStandardMaterial toneMapped={false}>
+        <planeGeometry args={[size * 2, size * 2]} />
+        <meshStandardMaterial toneMapped={false} alphaMap={alphaMap} transparent>
           <GradientTexture
             stops={[0, 0.5, 1]}
             colors={['#000010', '#100030', '#300060', '#6000A0']}
@@ -97,19 +102,42 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
           />
         </meshStandardMaterial>
       </mesh>
-      <OrbitControls dampingFactor={0.05} enablePan={false} />
+      <OrbitControls
+        enablePan={false}
+        dampingFactor={0.05}
+        enableDamping={true}
+        minPolarAngle={-Math.PI}
+        maxPolarAngle={Math.PI / 2.5}
+        minAzimuthAngle={-Math.PI / 6}
+        maxAzimuthAngle={Math.PI / 6}
+        // Zoom
+        enableZoom={true}
+        minDistance={7}
+        maxDistance={12}
+      />
     </>
   );
 };
 
 export const GameCanvas: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   return (
-    <Canvas style={{ width: '100%', height: '100%' }} gl={{ preserveDrawingBuffer: true }}>
-      <color attach="background" args={['#000']} />
-      <Stars radius={100} depth={50} count={10000} factor={4} saturation={0} fade speed={2} />
-      <Environment preset="night" />
-      <Scene board={board} size={size} onTileClick={onTileClick} />
-    </Canvas>
+    <>
+      <Canvas style={{ width: '100%', height: '100%' }} gl={{ preserveDrawingBuffer: true }}>
+        <color attach="background" args={['#000']} />
+        <Stars radius={100} depth={50} count={10000} factor={4} saturation={0} fade speed={2} />
+        <Suspense
+          fallback={
+            <Html center>
+              <div className="text-white text-lg">Loading...</div>
+            </Html>
+          }
+        >
+          <Environment preset="night" />
+          <Scene board={board} size={size} onTileClick={onTileClick} />
+        </Suspense>
+      </Canvas>
+      <Loader containerStyles={{ background: 'transparent' }} innerStyles={{ color: 'white' }} />
+    </>
   );
 };
 

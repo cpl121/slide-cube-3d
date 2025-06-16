@@ -17,11 +17,13 @@ const PlayPage: NextPage = () => {
   const seed = query.seed ? parseInt(query.seed as string) : '0';
 
   const [shouldUndo, setShouldUndo] = useState(true);
-  const { board, moveCount, moveTile, undo, reset: resetPuzzle } = usePuzzle(
-    size,
-    Number(seed),
-    setShouldUndo,
-  );
+  const {
+    board,
+    moveCount,
+    moveTile,
+    undo,
+    reset: resetPuzzle,
+  } = usePuzzle(size, Number(seed), setShouldUndo);
   const { start, pause, reset, timeElapsed } = useTimer();
   const [showModal, setShowModal] = useState(false);
 
@@ -78,18 +80,30 @@ const PlayPage: NextPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
               onClick={closeModal}
             >
               X
             </button>
-            <h2 className="text-2xl font-bold mb-4">Congratulations!</h2>
-            <p className="mb-6">
-              You solved it in {timeElapsed} seconds and {moveCount / 2} moves.
-            </p>
-            <div className="flex justify-center">
+            <h2 className="text-2xl font-bold mb-4 text-center">🎉 Congratulations! 🥳</h2>
+            <div className="mb-6 text-center flex flex-col space-y-2">
+              <p className="text-2xl font-semibold">
+                You solved this puzzle in <span className="text-blue-600">{timeElapsed}s</span> and{' '}
+                <span className="text-blue-600">{moveCount / 2}</span> moves!
+              </p>
+              <span className="font-semibold">
+                Share your victory and challenge friends to beat your score! 🚀
+              </span>
+            </div>
+            <div className="flex justify-center w-full space-x-2">
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 mr-2"
+                className="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-300 w-full"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full"
                 onClick={() => {
                   if (navigator.share) {
                     navigator.share({
@@ -104,12 +118,6 @@ const PlayPage: NextPage = () => {
                 }}
               >
                 Share Result
-              </button>
-              <button
-                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                onClick={closeModal}
-              >
-                Close
               </button>
             </div>
           </div>

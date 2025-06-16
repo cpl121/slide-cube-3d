@@ -36,14 +36,14 @@ const UIControls: React.FC<UIControlsProps> = ({
         className="bg-cyan-600 hover:bg-cyan-500 text-white font-semibold py-1 px-3 rounded"
         onClick={onShuffle}
       >
-        Shuffle 🔁
+        Init 🔁
       </button>
       <button
         className="bg-cyan-600 enabled:hover:bg-cyan-500 text-white font-semibold py-1 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={onUndo}
         disabled={shouldUndo}
       >
-        Undo ◀️
+        Undo ↩️
       </button>
       <div className="ml-auto flex gap-4">
         <span className="md:text-lg">Moves: {moveCount / 2}</span>
