@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -6,7 +7,7 @@ import { UIControls } from '../components';
 import { usePuzzle, useTimer } from '../hooks';
 import { isSolved } from '../lib/puzzle';
 
-const PlayPage = () => {
+const PlayPage: NextPage = () => {
   const { query } = useRouter();
 
   const size = parseInt(query.size as string) || 4;
@@ -22,8 +23,15 @@ const PlayPage = () => {
   useEffect(() => {
     if (isSolved(board)) {
       pause();
+      alert(
+        'Congratulations! You solved the puzzle in ' +
+          timeElapsed +
+          ' seconds and ' +
+          moveCount +
+          ' moves.'
+      );
     }
-  }, [board, pause]);
+  }, [board]);
 
   return (
     <div className="flex flex-col h-screen">
