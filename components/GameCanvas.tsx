@@ -9,6 +9,7 @@ import {
   GradientTexture,
   Loader,
   Html,
+  useTexture,
 } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -62,6 +63,8 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   const cubeSize = 1; // Use a fixed cube size so tiles fill the grid consistently
   const boardSize = cubeSize * size;
 
+  const alphaMap = useTexture('/assets/alpha.jpg');
+
   useFrame(() => {
     if (cameraRef.current) {
       cameraRef.current.lookAt(0, 0, 0);
@@ -90,8 +93,8 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
         ))}
       </group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -cubeSize / 2 - 0.01, 0]}>
-        <planeGeometry args={[size * 1.5, size * 1.5]} />
-        <meshStandardMaterial toneMapped={false}>
+        <planeGeometry args={[size * 2, size * 2]} />
+        <meshStandardMaterial toneMapped={false} alphaMap={alphaMap} transparent>
           <GradientTexture
             stops={[0, 0.5, 1]}
             colors={['#000010', '#100030', '#300060', '#6000A0']}
@@ -99,7 +102,22 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
           />
         </meshStandardMaterial>
       </mesh>
-      <OrbitControls dampingFactor={0.05} enablePan={false} />
+      <OrbitControls
+        enablePan={false}
+        dampingFactor={0.05}
+        enableDamping={true}
+
+        minPolarAngle={-Math.PI}
+        maxPolarAngle={Math.PI / 2.5}
+
+        minAzimuthAngle={-Math.PI / 6}
+        maxAzimuthAngle={Math.PI / 6}
+
+        // Zoom
+        enableZoom={true}
+        minDistance={7}
+        maxDistance={12}
+      />
     </>
   );
 };
