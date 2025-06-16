@@ -1,9 +1,5 @@
 import { useState, useCallback } from 'react';
-import {
-  generateSolvedBoard,
-  shuffleBoard,
-  moveTile as moveTileOnBoard,
-} from '../lib/puzzle';
+import { generateSolvedBoard, shuffleBoard, moveTile as moveTileOnBoard } from '../lib/puzzle';
 
 export interface PuzzleHook {
   board: number[];
@@ -15,8 +11,8 @@ export interface PuzzleHook {
 
 export function usePuzzle(size: number, seed?: number): PuzzleHook {
   const createBoard = useCallback(() => {
-    return shuffleBoard(generateSolvedBoard(size), seed);
-  }, [size, seed]);
+    return shuffleBoard(generateSolvedBoard(size));
+  }, [size]);
 
   const [board, setBoard] = useState<number[]>(createBoard);
   const [history, setHistory] = useState<number[][]>([]);
@@ -32,7 +28,7 @@ export function usePuzzle(size: number, seed?: number): PuzzleHook {
         return nextBoard;
       });
     },
-    [size]
+    [size],
   );
 
   const undo = useCallback(() => {

@@ -17,12 +17,7 @@ const formatTime = (seconds: number): string => {
   return `${m}:${s}`;
 };
 
-const UIControls: React.FC<UIControlsProps> = ({
-  moveCount,
-  timeElapsed,
-  onShuffle,
-  onUndo,
-}) => {
+const UIControls: React.FC<UIControlsProps> = ({ moveCount, timeElapsed, onShuffle, onUndo }) => {
   return (
     <div className="fixed top-0 left-0 w-full bg-gray-800 text-white flex items-center gap-4 p-4">
       <button
