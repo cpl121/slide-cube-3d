@@ -32,7 +32,7 @@ const Tile: React.FC<TileProps> = ({ index, value, size, cubeSize, onClick }) =>
       <meshStandardMaterial color="orange" />
       <Text
         position={[0, cubeSize / 2 + 0.01, 0]}
-        rotation={[Math.PI / 2, Math.PI, 0]}
+        rotation={[Math.PI / 2, Math.PI, Math.PI]}
         fontSize={cubeSize * 0.4}
         color="white"
         anchorX="center"
