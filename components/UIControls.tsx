@@ -1,3 +1,4 @@
+import { formatTime } from '@/lib/puzzle';
 import React from 'react';
 
 export interface UIControlsProps {
@@ -6,16 +7,6 @@ export interface UIControlsProps {
   onShuffle(): void;
   onUndo(): void;
 }
-
-const formatTime = (seconds: number): string => {
-  const m = Math.floor(seconds / 60)
-    .toString()
-    .padStart(2, '0');
-  const s = Math.floor(seconds % 60)
-    .toString()
-    .padStart(2, '0');
-  return `${m}:${s}`;
-};
 
 const UIControls: React.FC<UIControlsProps> = ({ moveCount, timeElapsed, onShuffle, onUndo }) => {
   return (

@@ -1,5 +1,6 @@
 'use client';
 
+import { formatTime } from '@/lib/puzzle';
 import React from 'react';
 
 export interface VictoryPopupProps {
@@ -14,7 +15,7 @@ const VictoryPopup: React.FC<VictoryPopupProps> = ({ moveCount, timeElapsed, onC
       <div className="bg-white rounded-lg p-6 text-center max-w-sm mx-auto">
         <h2 className="text-2xl font-bold mb-4">Congratulations!</h2>
         <p className="mb-6">
-          You solved the puzzle in {timeElapsed} seconds and {moveCount} moves.
+          You solved the puzzle in {formatTime(timeElapsed)} seconds and {moveCount} moves.
         </p>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
