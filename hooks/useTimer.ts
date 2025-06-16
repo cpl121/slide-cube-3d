@@ -1,39 +1,45 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
-export function useTimer() {
+export interface TimerHook {
+  timeElapsed: number;
+  start: () => void;
+  pause: () => void;
+  reset: () => void;
+}
+
+export function useTimer(): TimerHook {
   const [timeElapsed, setTimeElapsed] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const runningRef = useRef(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const start = () => {
-    if (!runningRef.current) {
-      runningRef.current = true;
+  const clear = useCallback(() => {
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  const start = useCallback(() => {
+    if (intervalRef.current === null) {
       intervalRef.current = setInterval(() => {
         setTimeElapsed((prev) => prev + 1);
       }, 1000);
     }
-  };
+  }, []);
 
-  const pause = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-      runningRef.current = false;
-    }
-  };
+  const pause = useCallback(() => {
+    clear();
+  }, [clear]);
 
-  const reset = () => {
-    pause();
+  const reset = useCallback(() => {
+    clear();
     setTimeElapsed(0);
-  };
+  }, [clear]);
 
   useEffect(() => {
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      clear();
     };
-  }, []);
+  }, [clear]);
 
   return { timeElapsed, start, pause, reset };
 }
