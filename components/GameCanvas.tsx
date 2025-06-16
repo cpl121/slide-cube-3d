@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls, PerspectiveCamera, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 export interface GameCanvasProps {
@@ -9,25 +9,46 @@ export interface GameCanvasProps {
   onTileClick: (index: number) => void;
 }
 
-const Tile: React.FC<{
+interface TileProps {
   index: number;
   value: number;
   size: number;
+  cubeSize: number;
   onClick: (index: number) => void;
-}> = ({ index, value, size, onClick }) => {
+}
+
+const Tile: React.FC<TileProps> = ({ index, value, size, cubeSize, onClick }) => {
   if (value === 0) return null;
   const x = index % size;
   const y = Math.floor(index / size);
+  const position: [number, number, number] = [
+    (x - size / 2 + 0.5) * cubeSize,
+    0,
+    (y - size / 2 + 0.5) * cubeSize,
+  ];
   return (
-    <mesh position={[x - size / 2 + 0.5, 0, y - size / 2 + 0.5]} onClick={() => onClick(index)}>
-      <boxGeometry args={[1, 1, 1]} />
+    <mesh position={position} onPointerDown={() => onClick(index)}>
+      <boxGeometry args={[cubeSize, cubeSize, cubeSize]} />
       <meshStandardMaterial color="orange" />
+      <Text
+        position={[0, 0, cubeSize / 2 + 0.01]}
+        fontSize={cubeSize * 0.4}
+        color="white"
+        anchorX="center"
+        anchorY="middle"
+        billboard
+      >
+        {value.toString()}
+      </Text>
     </mesh>
   );
 };
 
+
 const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null!);
+  const cubeSize = 1; // Use a fixed cube size so tiles fill the grid consistently
+  const boardSize = cubeSize * size;
 
   useFrame(() => {
     if (cameraRef.current) {
@@ -40,13 +61,20 @@ const Scene: React.FC<GameCanvasProps> = ({ board, size, onTileClick }) => {
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
-        position={[size * 1.5, size * 1.5, size * 1.5]}
+        position={[boardSize * 1.5, boardSize * 1.5, boardSize * 1.5]}
       />
       <ambientLight intensity={0.5} />
       <directionalLight position={[3, 5, 2]} intensity={0.7} />
       <group>
         {board.map((value, index) => (
-          <Tile key={index} index={index} value={value} size={size} onClick={onTileClick} />
+          <Tile
+            key={index}
+            index={index}
+            value={value}
+            size={size}
+            cubeSize={cubeSize}
+            onClick={onTileClick}
+          />
         ))}
       </group>
       <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
